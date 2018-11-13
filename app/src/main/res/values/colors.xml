@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#1de9b6</color>
+    <color name="colorPrimaryDark">#26a69a</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="colorbgCard">#eeeeee</color>
+    <color name="colorScore">#fff4f4f4</color>
+    <color name="colorDark">#004d40</color>
+</resources>

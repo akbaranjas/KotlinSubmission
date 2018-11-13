@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Football Match Schedule</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="str_lineups">Lineups</string>
+    <string name="str_goal_keeper">Goal Keeper</string>
+    <string name="str_defense">Defense</string>
+    <string name="str_midfielder">Midfielder</string>
+    <string name="str_forward">Forward</string>
+    <string name="str_substitutes">Substitutes</string>
+    <string name="str_goals">Goals</string>
+    <string name="str_shots">Shots</string>
+    <string name="str_last_match">Last Match</string>
+    <string name="str_next_match">Next Match</string>
+</resources>
