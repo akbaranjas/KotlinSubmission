@@ -76,19 +76,19 @@ data class Match(
     var awaySUB: String? = null,
 
     @SerializedName("intHomeShots")
-    var homeShot : String? = null,
+    var homeShot: String? = null,
 
     @SerializedName("intAwayShots")
-    var awayShot : String? = null,
+    var awayShot: String? = null,
 
     @SerializedName("dateEvent")
-    var date : String? ,
+    var date: String?,
 
     @SerializedName("idHomeTeam")
-    var idHomeTeam : String? = null,
+    var idHomeTeam: String? = null,
 
     @SerializedName("idAwayTeam")
-    var idAwayTeam : String? = null
+    var idAwayTeam: String? = null
 
 
 ) : Parcelable

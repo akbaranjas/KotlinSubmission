@@ -5,12 +5,23 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".DetailActivity">
+<android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 <ScrollView android:layout_width="match_parent" android:layout_height="wrap_content">
+
     <LinearLayout
         android:padding="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"/>
 
         <TextView
             android:id="@+id/detail_date"
@@ -430,5 +441,7 @@
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
+
 </ScrollView>
+</android.support.v4.widget.SwipeRefreshLayout>
 </android.support.constraint.ConstraintLayout>

@@ -11,28 +11,28 @@ fun View.visible() {
 }
 
 fun View.invisible() {
-    visibility = View.INVISIBLE
+    visibility = View.GONE
 }
 
-fun getSubstringName(name : String): String{
-    return if(name.length > 10){
-        name.substring(0,9)+"..."
-    }else{
+fun getSubstringName(name: String): String {
+    return if (name.length > 10) {
+        name.substring(0, 9) + "..."
+    } else {
         name
     }
 }
 
-fun getDateFormat(name : String): String{
+fun getDateFormat(name: String): String {
     val newFormat = SimpleDateFormat("EEE, dd MMM yyyy", Locale.US)
-    var date = SimpleDateFormat("yyyy-MM-dd", Locale.US).parse(name)
+    val date = SimpleDateFormat("yyyy-MM-dd", Locale.US).parse(name)
     val newdate = newFormat.format(date)
     return newdate.toString()
 }
 
-fun replaceSemiColon(name: String): String{
-    return if(name.contains(";")) {
+fun replaceSemiColon(name: String): String {
+    return if (name.contains(";")) {
         name.replace(";", "\n")
-    }else{
+    } else {
         "-"
     }
 }

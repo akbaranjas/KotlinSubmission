@@ -31,10 +31,10 @@ class NextMatchFragment : Fragment(), MatchView {
     private lateinit var adapter: MatchListAdapter
     private lateinit var listTeam: RecyclerView
     private lateinit var progressBar: ProgressBar
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val ui = UI {
             frameLayout {
-                lparams (width = matchParent, height = wrapContent)
+                lparams(width = matchParent, height = wrapContent)
                 linearLayout {
                     lparams(matchParent, wrapContent)
                     orientation = LinearLayout.VERTICAL
@@ -58,8 +58,8 @@ class NextMatchFragment : Fragment(), MatchView {
             }
         }
 
-        adapter = MatchListAdapter(match!!){
-            requireActivity().startActivity<DetailActivity>(EXTRA_MATCH to it)
+        adapter = MatchListAdapter(match!!) {
+            requireActivity().startActivity<DetailActivity>(EXTRA_MATCH to it.eventId)
         }
         listTeam.adapter = adapter
 

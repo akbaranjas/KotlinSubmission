@@ -9,27 +9,29 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.akbaranjas.footballmatchschedule.R
-import com.akbaranjas.footballmatchschedule.models.Match
+import com.akbaranjas.footballmatchschedule.db.FavoriteMatch
 import com.akbaranjas.footballmatchschedule.util.getDateFormat
 import com.akbaranjas.footballmatchschedule.util.getSubstringName
 import org.jetbrains.anko.*
 import org.jetbrains.anko.cardview.v7.cardView
 
-class MatchListAdapter(private val teams: List<Match>, private val listener: (Match) -> Unit) :
-    RecyclerView.Adapter<MatchViewHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MatchViewHolder {
-        return MatchViewHolder(MatchUI().createView(AnkoContext.create(parent.context, parent)))
+
+class FavoriteMatchAdapter(private val teams: List<FavoriteMatch>, private val listener: (FavoriteMatch) -> Unit) :
+    RecyclerView.Adapter<FavoriteMatchViewHolder>() {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteMatchViewHolder {
+        return FavoriteMatchViewHolder(FavoriteMatchUI().createView(AnkoContext.create(parent.context, parent)))
     }
 
     override fun getItemCount(): Int = teams.size
 
-    override fun onBindViewHolder(holder: MatchViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: FavoriteMatchViewHolder, position: Int) {
         holder.bindItem(teams[position], listener)
     }
 
 }
 
-class MatchUI : AnkoComponent<ViewGroup> {
+class FavoriteMatchUI : AnkoComponent<ViewGroup> {
     override fun createView(ui: AnkoContext<ViewGroup>): View {
         return with(ui) {
             cardView {
@@ -137,17 +139,17 @@ class MatchUI : AnkoComponent<ViewGroup> {
 
 }
 
-class MatchViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+class FavoriteMatchViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private val matchDate: TextView = view.find(R.id.match_date)
     private val homeTeam: TextView = view.find(R.id.home_team)
     private val homeScore: TextView = view.find(R.id.home_score)
     private val awayTeam: TextView = view.find(R.id.away_team)
     private val awayScore: TextView = view.find(R.id.away_score)
     fun bindItem(
-        match: Match,
-        listener: (Match) -> Unit
+        match: FavoriteMatch,
+        listener: (FavoriteMatch) -> Unit
     ) {
-        matchDate.text = getDateFormat(match.date!!)
+        matchDate.text = match.eventDate?.let { getDateFormat(it) }
         homeTeam.text = getSubstringName(match.homeTeam!!)
         homeScore.text = match.homeScore
         awayTeam.text = getSubstringName(match.awayTeam!!)

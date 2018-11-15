@@ -6,8 +6,7 @@ import com.akbaranjas.footballmatchschedule.view.MatchView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-class MatchPresenter(private val view: MatchView)
-{
+class MatchPresenter(private val view: MatchView) {
 
     private val apiInterface by lazy {
         ApiInterface.create()
@@ -15,18 +14,16 @@ class MatchPresenter(private val view: MatchView)
 
     fun getMatchList(league: String) {
         view.showLoading()
-        apiInterface.getMatchList(BuildConfig.TSDB_API_KEY,league)
+        apiInterface.getMatchList(BuildConfig.TSDB_API_KEY, league)
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
-                {
-                    result -> view.showList(result.events)
-                },
-                {
-                    error -> view.showError(error)
-                },
-                {
+                { result ->
+                    view.showList(result.events)
                     view.hideLoading()
+                },
+                { error ->
+                    view.showError(error)
                 }
 
             )
@@ -35,18 +32,16 @@ class MatchPresenter(private val view: MatchView)
 
     fun getNextMatchList(league: String) {
         view.showLoading()
-        apiInterface.getNextMatchList(BuildConfig.TSDB_API_KEY,league)
+        apiInterface.getNextMatchList(BuildConfig.TSDB_API_KEY, league)
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
-                {
-                        result -> view.showList(result.events)
-                },
-                {
-                        error -> view.showError(error)
-                },
-                {
+                { result ->
+                    view.showList(result.events)
                     view.hideLoading()
+                },
+                { error ->
+                    view.showError(error)
                 }
 
             )
@@ -55,3 +50,4 @@ class MatchPresenter(private val view: MatchView)
 
 
 }
+
