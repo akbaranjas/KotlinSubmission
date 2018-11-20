@@ -5,4 +5,5 @@
     <item name="home_score" type="id"/>
     <item name="away_team" type="id"/>
     <item name="away_score" type="id"/>
+    <item name="last_match_list" type="id"/>
 </resources>

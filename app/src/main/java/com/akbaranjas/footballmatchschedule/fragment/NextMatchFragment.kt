@@ -14,6 +14,7 @@ import com.akbaranjas.footballmatchschedule.DetailActivity
 import com.akbaranjas.footballmatchschedule.adapter.MatchListAdapter
 import com.akbaranjas.footballmatchschedule.models.Match
 import com.akbaranjas.footballmatchschedule.presenter.MatchPresenter
+import com.akbaranjas.footballmatchschedule.util.ApiInterface
 import com.akbaranjas.footballmatchschedule.util.EXTRA_MATCH
 import com.akbaranjas.footballmatchschedule.util.invisible
 import com.akbaranjas.footballmatchschedule.util.visible
@@ -31,6 +32,9 @@ class NextMatchFragment : Fragment(), MatchView {
     private lateinit var adapter: MatchListAdapter
     private lateinit var listTeam: RecyclerView
     private lateinit var progressBar: ProgressBar
+    private val apiInterface by lazy {
+        ApiInterface.create()
+    }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val ui = UI {
             frameLayout {
@@ -63,7 +67,7 @@ class NextMatchFragment : Fragment(), MatchView {
         }
         listTeam.adapter = adapter
 
-        presenter = MatchPresenter(this)
+        presenter = MatchPresenter(this,apiInterface)
 
         presenter.getNextMatchList("4328")
 

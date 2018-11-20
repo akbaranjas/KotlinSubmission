@@ -5,6 +5,7 @@ import android.os.Bundle
 import com.akbaranjas.footballmatchschedule.R.id.*
 import com.akbaranjas.footballmatchschedule.fragment.FavouriteMatchFragment
 import com.akbaranjas.footballmatchschedule.fragment.LastMatchFragment
+import com.akbaranjas.footballmatchschedule.fragment.MatchFragment
 import com.akbaranjas.footballmatchschedule.fragment.NextMatchFragment
 import kotlinx.android.synthetic.main.activity_home.*
 
@@ -15,10 +16,10 @@ class HomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_home)
         bottom_navigation.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
-                last_match_menu -> {
-                    loadLastMatchFragment(savedInstanceState)
+                match_menu -> {
+                    loadMatchFragment(savedInstanceState)
                 }
-                next_match_menu -> {
+                teams_menu -> {
                     loadNextMatchFragment(savedInstanceState)
                 }
 
@@ -29,7 +30,16 @@ class HomeActivity : AppCompatActivity() {
 
             true
         }
-        bottom_navigation.selectedItemId = last_match_menu
+        bottom_navigation.selectedItemId = match_menu
+    }
+
+    private fun loadMatchFragment(savedInstanceState: Bundle?) {
+        if (savedInstanceState == null) {
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.main_container, MatchFragment(), MatchFragment::class.java.simpleName)
+                .commit()
+        }
     }
 
     private fun loadLastMatchFragment(savedInstanceState: Bundle?) {

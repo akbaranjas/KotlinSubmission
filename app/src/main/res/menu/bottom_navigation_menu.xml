@@ -2,17 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-            android:id="@+id/last_match_menu"
+            android:id="@+id/match_menu"
             android:enabled="true"
-            android:title="@string/str_last_match"
-            android:icon="@drawable/ic_last_match"
+            android:title="@string/str_match"
+            android:icon="@drawable/ic_football_match_on_tv"
             app:showAsAction="ifRoom"/>
 
     <item
-            android:id="@+id/next_match_menu"
+            android:id="@+id/teams_menu"
             android:enabled="true"
-            android:icon="@drawable/ic_next_match"
-            android:title="@string/str_next_match"
+            android:icon="@drawable/ic_teams"
+            android:title="@string/str_teams"
             app:showAsAction="ifRoom" />
 
     <item

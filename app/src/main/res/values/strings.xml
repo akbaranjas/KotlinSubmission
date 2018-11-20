@@ -14,4 +14,8 @@
     <string name="str_last_match">Last Match</string>
     <string name="str_next_match">Next Match</string>
     <string name="str_favorites">Favorites</string>
+    <string name="str_match">Match</string>
+    <string name="str_teams">Teams</string>
+    <string name="str_last">Last</string>
+    <string name="str_next">Next</string>
 </resources>

@@ -28,8 +28,9 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="ic_last_match" />
-                            <entry key="sourceFile" value="C:\Users\akbar.putrantyo" />
+                            <entry key="assetSourceType" value="FILE" />
+                            <entry key="outputName" value="ic_football_match_on_tv" />
+                            <entry key="sourceFile" value="C:\Users\akbar.putrantyo\Downloads\football-match-on-tv.svg" />
                           </map>
                         </option>
                       </PersistentState>

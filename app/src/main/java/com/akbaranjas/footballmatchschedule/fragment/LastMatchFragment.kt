@@ -12,9 +12,11 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import com.akbaranjas.footballmatchschedule.DetailActivity
+import com.akbaranjas.footballmatchschedule.R
 import com.akbaranjas.footballmatchschedule.adapter.MatchListAdapter
 import com.akbaranjas.footballmatchschedule.models.Match
 import com.akbaranjas.footballmatchschedule.presenter.MatchPresenter
+import com.akbaranjas.footballmatchschedule.util.ApiInterface
 import com.akbaranjas.footballmatchschedule.util.EXTRA_MATCH
 import com.akbaranjas.footballmatchschedule.util.invisible
 import com.akbaranjas.footballmatchschedule.util.visible
@@ -31,11 +33,15 @@ class LastMatchFragment : Fragment(), MatchView {
     private lateinit var adapter: MatchListAdapter
     private lateinit var listTeam: RecyclerView
     private lateinit var progressBar: ProgressBar
+    private val apiInterface by lazy {
+        ApiInterface.create()
+    }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val ui = UI {
             frameLayout {
                 lparams(width = matchParent, height = wrapContent)
                 linearLayout {
+
                     lparams(matchParent, wrapContent)
                     orientation = LinearLayout.VERTICAL
                     topPadding = dip(16)
@@ -45,6 +51,7 @@ class LastMatchFragment : Fragment(), MatchView {
                         lparams(width = matchParent, height = wrapContent)
 
                         listTeam = recyclerView {
+                            id = R.id.last_match_list
                             lparams(width = matchParent, height = wrapContent)
                             layoutManager = LinearLayoutManager(ctx)
                         }
@@ -64,7 +71,7 @@ class LastMatchFragment : Fragment(), MatchView {
         }
         listTeam.adapter = adapter
 
-        presenter = MatchPresenter(this)
+        presenter = MatchPresenter(this,apiInterface)
 
         presenter.getMatchList("4328")
 

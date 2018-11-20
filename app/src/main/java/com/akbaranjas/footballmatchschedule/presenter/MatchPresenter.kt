@@ -6,11 +6,7 @@ import com.akbaranjas.footballmatchschedule.view.MatchView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-class MatchPresenter(private val view: MatchView) {
-
-    private val apiInterface by lazy {
-        ApiInterface.create()
-    }
+class MatchPresenter(private val view: MatchView, private val apiInterface: ApiInterface) {
 
     fun getMatchList(league: String) {
         view.showLoading()
