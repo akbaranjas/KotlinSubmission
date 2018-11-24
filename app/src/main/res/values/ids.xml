@@ -6,4 +6,6 @@
     <item name="away_team" type="id"/>
     <item name="away_score" type="id"/>
     <item name="last_match_list" type="id"/>
+    <item name="match_time" type="id"/>
+    <item name="btn_add_event" type="id"/>
 </resources>

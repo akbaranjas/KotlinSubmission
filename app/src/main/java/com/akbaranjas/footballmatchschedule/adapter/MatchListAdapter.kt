@@ -6,16 +6,17 @@ import android.support.v7.widget.RecyclerView
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.akbaranjas.footballmatchschedule.R
+import com.akbaranjas.footballmatchschedule.`interface`.BtnEventInterface
 import com.akbaranjas.footballmatchschedule.models.Match
-import com.akbaranjas.footballmatchschedule.util.getDateFormat
-import com.akbaranjas.footballmatchschedule.util.getSubstringName
+import com.akbaranjas.footballmatchschedule.util.*
 import org.jetbrains.anko.*
 import org.jetbrains.anko.cardview.v7.cardView
 
-class MatchListAdapter(private val teams: List<Match>, private val listener: (Match) -> Unit) :
+class MatchListAdapter(private val teams: List<Match>, private val type: String, private val btnListener: BtnEventInterface, private val listener: (Match) -> Unit) :
     RecyclerView.Adapter<MatchViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MatchViewHolder {
         return MatchViewHolder(MatchUI().createView(AnkoContext.create(parent.context, parent)))
@@ -24,8 +25,9 @@ class MatchListAdapter(private val teams: List<Match>, private val listener: (Ma
     override fun getItemCount(): Int = teams.size
 
     override fun onBindViewHolder(holder: MatchViewHolder, position: Int) {
-        holder.bindItem(teams[position], listener)
+        holder.bindItem(teams[position], listener, type, btnListener)
     }
+
 
 }
 
@@ -37,11 +39,13 @@ class MatchUI : AnkoComponent<ViewGroup> {
                     margin = dip(5)
                 }
                 radius = dip(4).toFloat()
-                linearLayout {
+                linearLayout{
                     lparams(matchParent, wrapContent) {
                         orientation = LinearLayout.VERTICAL
-                        bottomMargin = dip(50)
                     }
+
+                relativeLayout {
+                    lparams(matchParent, wrapContent)
 
                     textView {
                         id = R.id.match_date
@@ -51,14 +55,36 @@ class MatchUI : AnkoComponent<ViewGroup> {
                         textColor = R.color.colorDark
 
                     }.lparams(wrapContent, wrapContent) {
-                        gravity = Gravity.CENTER_HORIZONTAL
+                        centerHorizontally()
+                        bottomMargin = dip(5)
+                    }
+                    imageButton{
+                        id = R.id.btn_add_event
+                        imageResource = R.drawable.ic_add_alert
+                        padding = dip(5)
+                        backgroundColor = Color.TRANSPARENT
+                        backgroundResource = R.drawable.ripple_effect
 
+                    }.lparams(dip(50), dip(50)){
+                        alignParentRight()
+                        topMargin = dip(5)
+                        rightOf(R.id.match_date)
+                    }
+                    textView {
+                        id = R.id.match_time
+                        this.setTypeface(null, Typeface.BOLD)
+                        textSize = 16F
+                        text = "20-11-2018"
+                        textColor = R.color.colorDark
+
+                    }.lparams(wrapContent, wrapContent) {
+                        centerHorizontally()
+                        below(R.id.match_date)
                     }
                 }
                 linearLayout {
                     lparams(matchParent, wrapContent) {
                         orientation = LinearLayout.HORIZONTAL
-                        topMargin = dip(20)
                     }
                     linearLayout {
                         lparams(matchParent, wrapContent)
@@ -132,6 +158,7 @@ class MatchUI : AnkoComponent<ViewGroup> {
 
 
             }
+            }
         }
     }
 
@@ -143,17 +170,29 @@ class MatchViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private val homeScore: TextView = view.find(R.id.home_score)
     private val awayTeam: TextView = view.find(R.id.away_team)
     private val awayScore: TextView = view.find(R.id.away_score)
+    private val matchTime: TextView = view.find(R.id.match_time)
+    private val btnEvent: ImageButton = view.findViewById(R.id.btn_add_event)
     fun bindItem(
         match: Match,
-        listener: (Match) -> Unit
+        listener: (Match) -> Unit,
+        type: String,
+        btnListener: BtnEventInterface
     ) {
-        matchDate.text = getDateFormat(match.date!!)
-        homeTeam.text = getSubstringName(match.homeTeam!!)
+        matchDate.text = match.date?.let { getDateFormat(it) }
+        homeTeam.text = match.homeTeam?.let { getSubstringName(it) }
         homeScore.text = match.homeScore
-        awayTeam.text = getSubstringName(match.awayTeam!!)
+        awayTeam.text = match.awayTeam?.let { getSubstringName(it) }
         awayScore.text = match.awayScore
+        matchTime.text = match.time?.let { getTimeFormat(it.replace("+00:00","")) }
+        if(type == "LAST"){
+            btnEvent.invisible()
+        }
         itemView.setOnClickListener {
             listener(match)
+        }
+
+        btnEvent.setOnClickListener {
+            btnListener.addEvent(match)
         }
     }
 }

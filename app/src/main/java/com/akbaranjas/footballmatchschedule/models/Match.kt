@@ -84,6 +84,9 @@ data class Match(
     @SerializedName("dateEvent")
     var date: String?,
 
+    @SerializedName("strTime")
+    var time: String?,
+
     @SerializedName("idHomeTeam")
     var idHomeTeam: String? = null,
 
