@@ -1,5 +1,6 @@
 package com.akbaranjas.footballmatchschedule.fragment
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.provider.CalendarContract
@@ -10,10 +11,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import android.widget.ProgressBar
-import android.widget.Spinner
+import android.widget.*
 import com.akbaranjas.footballmatchschedule.DetailActivity
+import com.akbaranjas.footballmatchschedule.R
 import com.akbaranjas.footballmatchschedule.`interface`.BtnEventInterface
 import com.akbaranjas.footballmatchschedule.adapter.MatchListAdapter
 import com.akbaranjas.footballmatchschedule.models.Match
@@ -26,12 +26,13 @@ import com.akbaranjas.footballmatchschedule.view.MatchView
 import org.jetbrains.anko.*
 import org.jetbrains.anko.recyclerview.v7.recyclerView
 import org.jetbrains.anko.support.v4.UI
+import org.jetbrains.anko.support.v4.ctx
 import org.jetbrains.anko.support.v4.toast
 import java.text.SimpleDateFormat
 import java.util.*
 
 
-class NextMatchFragment : Fragment(), MatchView, BtnEventInterface {
+class NextMatchFragment : Fragment(), AnkoComponent<Context>,MatchView, BtnEventInterface {
 
     private var match: MutableList<Match>? = mutableListOf()
     private lateinit var presenter: MatchPresenter
@@ -39,46 +40,70 @@ class NextMatchFragment : Fragment(), MatchView, BtnEventInterface {
     private lateinit var listTeam: RecyclerView
     private lateinit var progressBar: ProgressBar
     private lateinit var spinner: Spinner
+    private lateinit var league: String
     private val apiInterface by lazy {
         ApiInterface.create()
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val ui = UI {
-            frameLayout {
-                lparams(width = matchParent, height = wrapContent)
-                linearLayout {
-                    lparams(matchParent, wrapContent)
-                    orientation = LinearLayout.VERTICAL
-                    topPadding = dip(16)
-                    leftPadding = dip(16)
-                    rightPadding = dip(16)
-                    relativeLayout {
-                        lparams(width = matchParent, height = wrapContent)
-                        spinner = spinner()
-                        listTeam = recyclerView {
-                            lparams(width = matchParent, height = wrapContent)
-                            layoutManager = LinearLayoutManager(ctx)
-                        }
+        return createView(AnkoContext.create(requireContext()))
 
-                        progressBar = progressBar {
-                        }.lparams {
-                            centerHorizontally()
-                        }
+    }
+
+    override fun createView(ui: AnkoContext<Context>): View = with(ui){
+        frameLayout {
+            lparams(width = matchParent, height = wrapContent)
+            linearLayout {
+
+                lparams(matchParent, wrapContent)
+                orientation = LinearLayout.VERTICAL
+                topPadding = dip(16)
+                leftPadding = dip(16)
+                rightPadding = dip(16)
+                spinner = spinner()
+                relativeLayout {
+                    lparams(width = matchParent, height = wrapContent)
+
+                    listTeam = recyclerView {
+                        id = R.id.last_match_list
+                        lparams(width = matchParent, height = wrapContent)
+                        layoutManager = LinearLayoutManager(ctx)
+                    }
+
+                    progressBar = progressBar {
+                    }.lparams {
+                        centerHorizontally()
                     }
                 }
             }
         }
+    }
 
-        adapter = MatchListAdapter(match!!, "NEXT", this) {
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        val spinnerItems = resources.getStringArray(R.array.league)
+        val spinnerAdapter = ArrayAdapter(ctx, android.R.layout.simple_spinner_dropdown_item, spinnerItems)
+        spinner.adapter = spinnerAdapter
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val leagueID = resources.getStringArray(R.array.leagueID)
+                league = leagueID[position]
+                presenter.getNextMatchList(league)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+        }
+
+        adapter = MatchListAdapter(match!!,"NEXT", this) {
             requireActivity().startActivity<DetailActivity>(EXTRA_MATCH to it.eventId)
+
         }
         listTeam.adapter = adapter
 
         presenter = MatchPresenter(this,apiInterface)
 
         presenter.getNextMatchList("4328")
-
-        return ui.view
     }
 
     override fun showLoading() {

@@ -17,6 +17,7 @@ import com.akbaranjas.footballmatchschedule.models.Team
 import com.akbaranjas.footballmatchschedule.presenter.DetailPresenter
 import com.akbaranjas.footballmatchschedule.util.EXTRA_MATCH
 import com.akbaranjas.footballmatchschedule.util.getDateFormat
+import com.akbaranjas.footballmatchschedule.util.getTimeFormat
 import com.akbaranjas.footballmatchschedule.util.replaceSemiColon
 import com.akbaranjas.footballmatchschedule.view.DetailView
 import com.squareup.picasso.Picasso
@@ -69,6 +70,7 @@ class DetailActivity : AppCompatActivity(), DetailView {
     private fun initData(matchDetail: Match) {
 
         detail_date.text = getDateFormat(matchDetail.date!!)
+        detail_time.text = getTimeFormat(matchDetail.time!!)
         txt_homeTeam.text = matchDetail.homeTeam
         txt_awayTeam.text = matchDetail.awayTeam
         txt_score.text = """${matchDetail.homeScore ?: ""} VS ${matchDetail.awayScore ?: ""}"""

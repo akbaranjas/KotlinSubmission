@@ -33,6 +33,16 @@
             android:textColor="@color/colorDark"
             android:padding="10dp"/>
 
+        <TextView
+                android:id="@+id/detail_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorDark"
+                android:padding="10dp"/>
+
         <LinearLayout
                 android:layout_marginTop="15dp"
                 android:layout_width="match_parent"

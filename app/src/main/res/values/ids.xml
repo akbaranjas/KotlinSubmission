@@ -8,4 +8,12 @@
     <item name="last_match_list" type="id"/>
     <item name="match_time" type="id"/>
     <item name="btn_add_event" type="id"/>
+    <item name="team_badge" type="id"/>
+    <item name="team_name" type="id"/>
+    <item name="spinner_team" type="id"/>
+    <item name="list_team" type="id"/>
+    <item name="player_list" type="id"/>
+    <item name="playerphoto" type="id"/>
+    <item name="player_name" type="id"/>
+    <item name="player_position" type="id"/>
 </resources>

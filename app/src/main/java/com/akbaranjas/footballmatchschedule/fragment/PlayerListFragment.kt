@@ -10,39 +10,39 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
-import com.akbaranjas.footballmatchschedule.DetailActivity
+import android.widget.LinearLayout
+import android.widget.ProgressBar
+import com.akbaranjas.footballmatchschedule.DetailTeamActivity
+import com.akbaranjas.footballmatchschedule.PlayerDetailActivity
 import com.akbaranjas.footballmatchschedule.R
-import com.akbaranjas.footballmatchschedule.`interface`.BtnEventInterface
-import com.akbaranjas.footballmatchschedule.adapter.MatchListAdapter
-import com.akbaranjas.footballmatchschedule.models.Match
-import com.akbaranjas.footballmatchschedule.presenter.MatchPresenter
+import com.akbaranjas.footballmatchschedule.adapter.PlayerListAdapter
+import com.akbaranjas.footballmatchschedule.models.Player
+import com.akbaranjas.footballmatchschedule.models.Team
+import com.akbaranjas.footballmatchschedule.presenter.PlayerPresenter
 import com.akbaranjas.footballmatchschedule.util.ApiInterface
-import com.akbaranjas.footballmatchschedule.util.EXTRA_MATCH
+import com.akbaranjas.footballmatchschedule.util.EXTRA_PLAYER
 import com.akbaranjas.footballmatchschedule.util.invisible
 import com.akbaranjas.footballmatchschedule.util.visible
-import com.akbaranjas.footballmatchschedule.view.MatchView
+import com.akbaranjas.footballmatchschedule.view.PlayerView
 import org.jetbrains.anko.*
 import org.jetbrains.anko.recyclerview.v7.recyclerView
-import org.jetbrains.anko.support.v4.ctx
 import org.jetbrains.anko.support.v4.toast
 
-class LastMatchFragment : Fragment(),AnkoComponent<Context>, MatchView, BtnEventInterface {
+class PlayerListFragment : Fragment(), AnkoComponent<Context>, PlayerView, DetailTeamActivity.OnTeamIDReceivedListener {
 
-
-    private var match: MutableList<Match>? = mutableListOf()
-    private lateinit var presenter: MatchPresenter
-    private lateinit var adapter: MatchListAdapter
-    private lateinit var listTeam: RecyclerView
+    private lateinit var listPlayer: RecyclerView
+    private var player: MutableList<Player>? = mutableListOf()
+    private lateinit var presenter: PlayerPresenter
+    private lateinit var adapter: PlayerListAdapter
     private lateinit var progressBar: ProgressBar
-    private lateinit var spinner: Spinner
-    private lateinit var league: String
     private val apiInterface by lazy {
         ApiInterface.create()
     }
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return createView(AnkoContext.create(requireContext()))
-
     }
 
     override fun createView(ui: AnkoContext<Context>): View = with(ui){
@@ -55,12 +55,11 @@ class LastMatchFragment : Fragment(),AnkoComponent<Context>, MatchView, BtnEvent
                 topPadding = dip(16)
                 leftPadding = dip(16)
                 rightPadding = dip(16)
-                spinner = spinner()
                 relativeLayout {
                     lparams(width = matchParent, height = wrapContent)
 
-                    listTeam = recyclerView {
-                        id = R.id.last_match_list
+                    listPlayer = recyclerView {
+                        id = R.id.player_list
                         lparams(width = matchParent, height = wrapContent)
                         layoutManager = LinearLayoutManager(ctx)
                     }
@@ -76,30 +75,17 @@ class LastMatchFragment : Fragment(),AnkoComponent<Context>, MatchView, BtnEvent
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val spinnerItems = resources.getStringArray(R.array.league)
-        val spinnerAdapter = ArrayAdapter(ctx, android.R.layout.simple_spinner_dropdown_item, spinnerItems)
-        spinner.adapter = spinnerAdapter
-        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val leagueID = resources.getStringArray(R.array.leagueID)
-                league = leagueID[position]
-                presenter.getMatchList(league)
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-
-            }
-        }
-
-        adapter = MatchListAdapter(match!!,"LAST", this) {
-            requireActivity().startActivity<DetailActivity>(EXTRA_MATCH to it.eventId)
+        val mActivity = activity as DetailTeamActivity?
+        mActivity?.setOnTeamIDListener(this)
+        adapter = PlayerListAdapter(player!!) {
+            requireActivity().startActivity<PlayerDetailActivity>(EXTRA_PLAYER to it.playerId)
 
         }
-        listTeam.adapter = adapter
+        listPlayer.adapter = adapter
 
-        presenter = MatchPresenter(this,apiInterface)
+        presenter = PlayerPresenter(this,apiInterface)
 
-        presenter.getMatchList("4328")
+
     }
 
     override fun showLoading() {
@@ -117,15 +103,13 @@ class LastMatchFragment : Fragment(),AnkoComponent<Context>, MatchView, BtnEvent
         Log.e("Error", error.message)
     }
 
-    override fun showList(data: List<Match>) {
-        match?.clear()
-        match?.addAll(data)
+    override fun showPlayerList(data: List<Player>) {
+        player?.clear()
+        player?.addAll(data)
         adapter.notifyDataSetChanged()
-
     }
 
-    override fun addEvent(match: Match) {
-
+    override fun onTeamIDReceived(teamID: String) {
+            presenter.getPlayerList(teamID)
     }
-
 }

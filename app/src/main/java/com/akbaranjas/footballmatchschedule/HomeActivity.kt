@@ -3,10 +3,7 @@ package com.akbaranjas.footballmatchschedule
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import com.akbaranjas.footballmatchschedule.R.id.*
-import com.akbaranjas.footballmatchschedule.fragment.FavouriteMatchFragment
-import com.akbaranjas.footballmatchschedule.fragment.LastMatchFragment
-import com.akbaranjas.footballmatchschedule.fragment.MatchFragment
-import com.akbaranjas.footballmatchschedule.fragment.NextMatchFragment
+import com.akbaranjas.footballmatchschedule.fragment.*
 import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : AppCompatActivity() {
@@ -20,7 +17,7 @@ class HomeActivity : AppCompatActivity() {
                     loadMatchFragment(savedInstanceState)
                 }
                 teams_menu -> {
-                    loadNextMatchFragment(savedInstanceState)
+                    loadTeamFragment(savedInstanceState)
                 }
 
                 favourites_menu -> {
@@ -42,20 +39,11 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
-    private fun loadLastMatchFragment(savedInstanceState: Bundle?) {
+    private fun loadTeamFragment(savedInstanceState: Bundle?) {
         if (savedInstanceState == null) {
             supportFragmentManager
                 .beginTransaction()
-                .replace(R.id.main_container, LastMatchFragment(), LastMatchFragment::class.java.simpleName)
-                .commit()
-        }
-    }
-
-    private fun loadNextMatchFragment(savedInstanceState: Bundle?) {
-        if (savedInstanceState == null) {
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.main_container, NextMatchFragment(), NextMatchFragment::class.java.simpleName)
+                .replace(R.id.main_container, TeamFragment(), TeamFragment::class.java.simpleName)
                 .commit()
         }
     }

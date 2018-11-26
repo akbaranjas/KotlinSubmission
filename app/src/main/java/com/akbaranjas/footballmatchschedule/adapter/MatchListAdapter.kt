@@ -183,8 +183,10 @@ class MatchViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         homeScore.text = match.homeScore
         awayTeam.text = match.awayTeam?.let { getSubstringName(it) }
         awayScore.text = match.awayScore
-        matchTime.text = match.time?.let { getTimeFormat(it.replace("+00:00","")) }
-        if(type == "LAST"){
+        matchTime.text = match.time?.let {
+            getTimeFormat(it.replace("+00:00",""))
+        }
+        if(type != "NEXT"){
             btnEvent.invisible()
         }
         itemView.setOnClickListener {

@@ -18,22 +18,27 @@
     <string name="str_teams">Teams</string>
     <string name="str_last">Last</string>
     <string name="str_next">Next</string>
+    <string name="str_search">Search</string>
+    <string name="str_overview">Overview</string>
+    <string name="str_player">Player</string>
+    <string name="str_weight_kg">Weight(Kg)</string>
+    <string name="str_height_m">Height(m)</string>
 
-    <array name="league">
+    <string-array name="league">
         <item>English Premier League</item>
         <item>English League Championship</item>
         <item>German Bundesliga</item>
         <item>Italian Serie A</item>
         <item>French Ligue 1</item>
         <item>Spanish La Liga</item>
-    </array>
+    </string-array>
 
-    <array name="league_id">
+    <string-array name="leagueID">
         <item>4328</item>
         <item>4329</item>
         <item>4331</item>
         <item>4332</item>
         <item>4334</item>
         <item>4335</item>
-    </array>
+    </string-array>
 </resources>
